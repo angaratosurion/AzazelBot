@@ -1,0 +1,1 @@
+".\AzazelBot.exe"
