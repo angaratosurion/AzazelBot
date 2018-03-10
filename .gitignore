@@ -52,5 +52,5 @@ obj
 /BlackCogs/obj
 packages/
 /bin/*.*
-/bin/
-bin/
+/AzazelBot.Core/bin/
+/AzazelBot/bin/
