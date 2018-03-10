@@ -51,4 +51,6 @@ obj
 /Backups
 /BlackCogs/obj
 packages/
-/bin
+/bin/*.*
+/bin/
+bin/
