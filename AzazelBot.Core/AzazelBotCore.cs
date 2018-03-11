@@ -12,6 +12,8 @@ using BotGear.BotConfiguration;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using BotGear.Data.JSON;
+using Newtonsoft.Json;
 
 namespace AzazelBot.Core
 {
@@ -22,12 +24,7 @@ namespace AzazelBot.Core
        
         public static DateTime startTime = DateTime.Now;
         BotConfigurationCore confcore;
-#if DEBUG
-        const string token = "MzE5NjE0NTQyNzYwMTE2MjI0.DBDf4w.bpCjpj6Ty8jipAAR7oxCGfu2tC4";
-#else
 
-        const string token = "MzE5NjA3NjY2NDE2NjgwOTYw.DBDeHA.-izEleQhjwvTzWhhTQpTHrmvzjg";
-#endif
         private  static  DiscordSocketClient client;
     
         //CommandsInitilizer comminit;
@@ -55,7 +52,22 @@ namespace AzazelBot.Core
 
 
             client.SetGameAsync("Type !help for help");
-            await client.LoginAsync(TokenType.Bot, token);
+            string token;
+          
+#if DEBUG
+            token = Path.Combine(System.Windows.Forms.Application.StartupPath, "config_debug.token");
+#else
+  token = Path.Combine(System.Windows.Forms.Application.StartupPath, "config.token");
+
+#endif
+            var tokar = File.ReadAllLines(token);
+            string tok="";
+            foreach(var t in tokar)
+            {
+                tok += t;
+            }
+            BotToken bttoken = JsonConvert.DeserializeObject<BotToken>(tok);
+          await client.LoginAsync(TokenType.Bot, bttoken.Token);
             await client.StartAsync();
      
         
