@@ -244,10 +244,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
-    <None Include="config.json">
+    <None Include="config.token">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="config_debug.json">
+    <None Include="config_debug.token">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="NLog.xsd">

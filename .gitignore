@@ -54,3 +54,4 @@ packages/
 /bin/*.*
 /AzazelBot.Core/bin/
 /AzazelBot/bin/
+*.token
