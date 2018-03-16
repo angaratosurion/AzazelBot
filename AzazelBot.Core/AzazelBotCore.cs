@@ -51,7 +51,7 @@ namespace AzazelBot.Core
 
 
 
-            client.SetGameAsync("Type !help for help");
+            client.SetGameAsync("Type !?help for help");
             string token;
           
 #if DEBUG
