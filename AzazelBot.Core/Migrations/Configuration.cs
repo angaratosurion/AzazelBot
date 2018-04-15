@@ -1,5 +1,6 @@
 namespace AzazelBot.Core.Migrations
 {
+    using AzazelBot.Core.Data.Models;
     using global::AzazelBot.Core.Data;
     using System;
     using System.Data.Entity;
@@ -11,6 +12,8 @@ namespace AzazelBot.Core.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            this.AutomaticMigrationDataLossAllowed = true;
+            
         }
 
         protected override void Seed(AZBContext context)
@@ -26,7 +29,23 @@ namespace AzazelBot.Core.Migrations
             //      new Person { FullName = "Brice Lambson" },
             //      new Person { FullName = "Rowan Miller" }
             //    );
-            //
+            FavoriteCharacter fav = new FavoriteCharacter();
+            fav.AddedAt = DateTime.Now;
+            fav.CharacterName = "test";
+            fav.ServerId = "test";
+            fav.uId = "test";
+            context.FavoriteCharacters.AddOrUpdate(fav);
+            GiftHistory gift = new GiftHistory();
+            gift.ServerId = "test";
+            gift.uId = "test";
+            gift.Year = 1;
+            gift.GiftedAt = DateTime.Now;
+            gift.CharacterName = "test";
+            context.GiftHistory.AddOrUpdate(gift);
+            context.SaveChanges();
+            
+            
+
         }
     }
 }

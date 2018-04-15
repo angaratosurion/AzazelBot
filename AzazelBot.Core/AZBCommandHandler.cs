@@ -54,12 +54,16 @@ namespace AzazelBot.Core
                         if (user != null)
                         {
                             DateTime date = DateTime.Now;
+                            GiftHistoryManager giftmngr = new GiftHistoryManager();
+                            
+                             
                             var birth = user.Birthday;
                             if (date.Day == birth.Day && date.Month == birth.Month)
                             {
                                 FavoriteCharactersManager fvmngr = new FavoriteCharactersManager();
+                                
                                 var fchar = fvmngr.GetUserFavorite(Convert.ToString(user.Id));
-                                if (fchar != null)
+                                if (fchar != null && await giftmngr.isGiftGiven(user.Id,Convert.ToString(arg1.Guild.Id),DateTime.Now.Year)==false)
                                 {
                                     int i = 0;
                                     Random rnd = new Random();
@@ -84,6 +88,7 @@ namespace AzazelBot.Core
                                               , arg2.Mention, fchar[i].CharacterName));
                                         }
                                         File.Delete(file);
+                                        await giftmngr.AddGift(user.Id, fchar[i].CharacterName, Convert.ToString(arg1.Guild.Id));
 
                                     }
 

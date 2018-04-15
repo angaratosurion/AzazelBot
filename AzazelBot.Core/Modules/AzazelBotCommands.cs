@@ -821,7 +821,200 @@ namespace AzazelBot.Core.Modules
             }
 
         }
+        [Command("listbotgifthistory")]
+        [Summary("gets the history of the gifts given by the bot to all servers. ")]
+        [RequireOwner]
+        public async Task GetBotGiftHistory()
+        {
+            try
+            {
+                string msg = "";
 
+                GiftHistoryManager giftHistoryManager = new GiftHistoryManager();
+                UserManager userManager = new UserManager();
+                ServerManager serverManager = new ServerManager();
+
+                var gifts = await giftHistoryManager.GetGiftHistory();
+                if (gifts!= null)
+                {
+                    StringBuilder bld = new StringBuilder();
+                    bld.AppendLine("Gifts given by the bot");
+                    foreach (var g in gifts)
+                    {
+                        var user = await  userManager.GetUserbyId(g.uId);
+                        var server = await serverManager.getServerbyId(g.ServerId);
+                        bld.AppendFormat("\nId :{0}", g.Id);
+                        bld.AppendFormat("\nUserName :{0}", user.Username);
+                        bld.AppendFormat("\nBirthday  :{0}", g.CharacterName);
+                        bld.AppendFormat("\nGiftet at :{0}", g.GiftedAt);
+                        bld.AppendFormat("\nYear: :{0}", g.Year);
+                        bld.AppendFormat("\nServer Name :{0}", server.Name);                       
+                        bld.AppendLine();
+                    }
+                    msg = bld.ToString();
+                }
+                else
+                {
+                    StringBuilder bld = new StringBuilder();
+                    bld.AppendLine("Registered users with the bot");
+                    bld.AppendLine("There is no history of gifts  ");
+                    msg = bld.ToString();
+                }
+
+                var channel = await Context.User.GetOrCreateDMChannelAsync();
+                if (channel != null)
+                {
+                    await channel.SendMessageAsync(msg);
+                }
+                //await ReplyAsync(msg);
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+            }
+
+        }
+
+
+
+        [Command("listgifthistory")]
+        [Summary("gets the history of the gifts given by the bot to current server . ")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task GetGiftHistory()
+        {
+            try
+            {
+                string msg = "";
+
+                GiftHistoryManager giftHistoryManager = new GiftHistoryManager();
+                UserManager userManager = new UserManager();
+                ServerManager serverManager = new ServerManager();
+
+                var gifts = await giftHistoryManager.GetUsersGiftByServerId(Convert.ToString(Context.Guild.Id));
+                if (gifts != null)
+                {
+                    StringBuilder bld = new StringBuilder();
+                    bld.AppendLine("Gifts given by the bot");
+                    foreach (var g in gifts)
+                    {
+                        var user = await userManager.GetUserbyId(g.uId);
+                        var server = await serverManager.getServerbyId(g.ServerId);
+                        bld.AppendFormat("\nId :{0}", g.Id);
+                        bld.AppendFormat("\nUserName :{0}", user.Username);
+                        bld.AppendFormat("\nBirthday  :{0}", g.CharacterName);
+                        bld.AppendFormat("\nGiftet at :{0}", g.GiftedAt);
+                        bld.AppendFormat("\nYear: :{0}", g.Year);
+                        bld.AppendFormat("\nServer Name :{0}", server.Name);
+                        bld.AppendLine();
+                    }
+                    msg = bld.ToString();
+                }
+                else
+                {
+                    StringBuilder bld = new StringBuilder();
+                    bld.AppendLine("Registered users with the bot");
+                    bld.AppendLine("There is no history of gifts  ");
+                    msg = bld.ToString();
+                }
+
+                var channel = await Context.User.GetOrCreateDMChannelAsync();
+                if (channel != null)
+                {
+                    await channel.SendMessageAsync(msg);
+                }
+                //await ReplyAsync(msg);
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+            }
+
+        }
+        [Command("clear_botgifthistory")]
+        [Summary("clears the history of the gifts given by the bot to all servers. ")]
+        [RequireOwner]
+        public async Task ClearBotGiftHistory()
+        {
+            try
+            {
+                string msg = "";
+
+                GiftHistoryManager giftHistoryManager = new GiftHistoryManager();
+                UserManager userManager = new UserManager();
+                ServerManager serverManager = new ServerManager();
+
+                var gifts = await giftHistoryManager.GetGiftHistory();
+                if (gifts != null)
+                {
+                    await giftHistoryManager.DelAllGifts();
+                    msg = "Cleared the Gift  History!";
+                }
+                else
+                {
+                    msg = "The Gift  History was empty";
+                }
+                
+
+                var channel = await Context.User.GetOrCreateDMChannelAsync();
+                if (channel != null)
+                {
+                    await channel.SendMessageAsync(msg);
+                }
+                //await ReplyAsync(msg);
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+            }
+
+        }
+        [Command("clear_gifthistory")]
+        [Summary("clears the history of the gifts given by the bot to this  servers. ")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        public async Task CleartGiftHistory()
+        {
+            try
+            {
+                string msg = "";
+
+                GiftHistoryManager giftHistoryManager = new GiftHistoryManager();
+                UserManager userManager = new UserManager();
+                ServerManager serverManager = new ServerManager();
+
+                var gifts = await giftHistoryManager.GetGiftHistory();
+               
+                if (gifts != null)
+                {
+                    await giftHistoryManager.DelGiftsByServerid(Convert.ToString(Context.Guild.Id));
+                    msg = "Cleared the Gift  History! "+Context.Guild.Name ;
+                }
+                else
+                {
+                    msg = "The Gift  History was empty " + Context.Guild.Name;
+                }
+
+
+                var channel = await Context.User.GetOrCreateDMChannelAsync();
+                if (channel != null)
+                {
+                    await channel.SendMessageAsync(msg);
+                }
+                //await ReplyAsync(msg);
+
+
+            }
+            catch (Exception ex)
+            {
+                CommonTools.ErrorReporting(ex);
+            }
+
+        }
 
     }
 }

@@ -240,8 +240,10 @@
     <Compile Include="Data\Models\Character.cs" />
     <Compile Include="Data\Models\FavoriteCharacter.cs" />
     <Compile Include="Data\AZBContext.cs" />
+    <Compile Include="Data\Models\GiftHistory.cs" />
     <Compile Include="Data\ViewModels\ViewFavoriteCharacter.cs" />
     <Compile Include="Managers\FavoriteCharactersManager.cs" />
+    <Compile Include="Managers\GiftHistoryManager.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Modules\AzazelBotCommands.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
