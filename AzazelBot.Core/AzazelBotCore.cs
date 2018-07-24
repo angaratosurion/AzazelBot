@@ -133,7 +133,7 @@ namespace AzazelBot.Core
             client.Log += Log;
             confcore = new BotConfigurationCore();
             handler = new AZBCommandHandler(null, client, null);
-            client = confcore.ConfigureBot(client, handler).Result;
+            client = confcore.ConfigureBot(client, handler,this).Result;
 
             return Task.CompletedTask;
         }
